@@ -5,20 +5,21 @@ import { pool } from '../db.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const [rows] = await pool.query('SELECT * FROM Users');
+    const [rows] = await pool.query('SELECT * FROM usuarios');
     res.json(rows);
 });
 
 router.post('/', async (req, res) => {
     try {
         const { Nombre, Edad, JuegoFavorito } = req.body;
+        Edad = parseInt(Edad);
         // Verificar que los campos no estén vacíos o nulos
-        if (!Nombre || Nombre.trim() === '' || !Edad || Edad.trim() === '' || !JuegoFavorito || JuegoFavorito.trim() === '') {
+        if (!Nombre || Nombre.trim() === '' || !Edad || isNaN(Edad) || !JuegoFavorito || JuegoFavorito.trim() === '') {
             return res.status(400).json({ mensaje: "Los campos no pueden estar vacíos o nulos" });
         }
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.query('INSERT INTO Users (nombre, edad, juegoFavorito) VALUES (?, ?, ?)', [Nombre, Edad, JuegoFavorito]);
+            const [rows] = await connection.query('INSERT INTO usuarios (nombre, edad, juegoFavorito) VALUES (?, ?, ?)', [Nombre, Edad, JuegoFavorito]);
             if (rows.affectedRows === 1) {
                 res.status(200).json({ mensaje: "Información agregada correctamente" });
             } else {
@@ -43,7 +44,7 @@ router.put('/:nombre', async (req, res) => {
         }
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('UPDATE Users SET juegoFavorito = ? WHERE nombre = ?', [NuevoJuegoFavorito, nombre]);
+            const [result] = await connection.query('UPDATE usuarios SET juegoFavorito = ? WHERE nombre = ?', [NuevoJuegoFavorito, nombre]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información actualizada correctamente" });
@@ -68,7 +69,7 @@ router.delete('/', async (req, res) => {
         }
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('DELETE FROM Users WHERE edad = ?', [Edad]);
+            const [result] = await connection.query('DELETE FROM usuarios WHERE edad = ?', [Edad]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información eliminada correctamente" });
