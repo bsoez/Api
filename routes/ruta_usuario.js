@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
         }
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.query('INSERT INTO usuarios (nombre, edad, juegoFavorito) VALUES (?, ?, ?)', [Nombre, Edad, JuegoFavorito]);
+            const [rows] = await connection.query('INSERT INTO usuarios (Nombre, Edad, JuegoFavorito) VALUES (?, ?, ?)', [Nombre, Edad, JuegoFavorito]);
             if (rows.affectedRows === 1) {
                 res.status(200).json({ mensaje: "Información agregada correctamente" });
             } else {
@@ -44,7 +44,7 @@ router.put('/:nombre', async (req, res) => {
         }
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('UPDATE usuarios SET juegoFavorito = ? WHERE nombre = ?', [NuevoJuegoFavorito, nombre]);
+            const [result] = await connection.query('UPDATE usuarios SET JuegoFavorito = ? WHERE Nombre = ?', [NuevoJuegoFavorito, nombre]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información actualizada correctamente" });
@@ -69,7 +69,7 @@ router.delete('/', async (req, res) => {
         }
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('DELETE FROM usuarios WHERE edad = ?', [Edad]);
+            const [result] = await connection.query('DELETE FROM usuarios WHERE Edad = ?', [Edad]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información eliminada correctamente" });
