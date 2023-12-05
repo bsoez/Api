@@ -12,14 +12,14 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { Nombre, Edad, JuegoFavorito } = req.body;
-        Edad = Edad.toString();
+        const EdadConvertida = Edad.toString();
         // Verificar que los campos no estén vacíos o nulos
-        if (!Nombre || Nombre.trim() === '' || !Edad || Edad.trim() === '' || !JuegoFavorito || JuegoFavorito.trim() === '') {
+        if (!Nombre || Nombre.trim() === '' || !EdadConvertida || EdadConvertida.trim() === '' || !JuegoFavorito || JuegoFavorito.trim() === '') {
             return res.status(400).json({ mensaje: "Los campos no pueden estar vacíos o nulos" });
         }
         const connection = await pool.getConnection();
         try {
-            const [rows] = await connection.query('INSERT INTO usuarios (Nombre, Edad, JuegoFavorito) VALUES (?, ?, ?)', [Nombre, Edad, JuegoFavorito]);
+            const [rows] = await connection.query('INSERT INTO usuarios (Nombre, Edad, JuegoFavorito) VALUES (?, ?, ?)', [Nombre, EdadConvertida, JuegoFavorito]);
             if (rows.affectedRows === 1) {
                 res.status(200).json({ mensaje: "Información agregada correctamente" });
             } else {
