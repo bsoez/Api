@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { Nombre, Edad, JuegoFavorito } = req.body;
-        Edad = parseInt(Edad);
+        Edad = Edad.toString();
         // Verificar que los campos no estén vacíos o nulos
-        if (!Nombre || Nombre.trim() === '' || !Edad || isNaN(Edad) || !JuegoFavorito || JuegoFavorito.trim() === '') {
+        if (!Nombre || Nombre.trim() === '' || !Edad || Edad.trim() === '' || !JuegoFavorito || JuegoFavorito.trim() === '') {
             return res.status(400).json({ mensaje: "Los campos no pueden estar vacíos o nulos" });
         }
         const connection = await pool.getConnection();
