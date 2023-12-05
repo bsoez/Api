@@ -63,13 +63,15 @@ router.put('/:nombre', async (req, res) => {
 router.delete('/', async (req, res) => {
     try {
         const { Edad } = req.body;
+        const EdadConvertida = Edad.toString();
+        
         // Verificar que la edad no esté vacía o nula
-        if (!Edad || Edad.trim() === '') {
+        if (!EdadConvertida || EdadConvertida.trim() === '') {
             return res.status(400).json({ mensaje: "La edad no puede estar vacía o nula" });
         }
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('DELETE FROM usuarios WHERE Edad = ?', [Edad]);
+            const [result] = await connection.query('DELETE FROM usuarios WHERE Edad = ?', [EdadConvertida]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información eliminada correctamente" });
