@@ -1,8 +1,11 @@
-// app.js
 import express from 'express';
-import { PORT } from './config.js';
 import bodyParser from 'body-parser';
+import { config as dotenvConfig } from 'dotenv'; // Importa el método 'config' desde 'dotenv'
+import { PORT } from './config.js';
 import { router as rutaUsuarioRouter } from './routes/ruta_usuario.js';
+
+// Carga las variables de entorno desde el archivo .env
+dotenvConfig();
 
 const app = express();
 
