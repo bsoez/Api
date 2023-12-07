@@ -62,21 +62,21 @@ router.put('/:nombre', async (req, res) => {
 
 router.delete('/', async (req, res) => {
     try {
-        const { Edad } = req.body;
-        const EdadConvertida = Edad.toString();
-        
-        // Verificar que la edad no esté vacía o nula
-        if (!EdadConvertida || EdadConvertida.trim() === '') {
-            return res.status(400).json({ mensaje: "La edad no puede estar vacía o nula" });
+        const { id } = req.body;
+
+        // Verificar que el ID no esté vacío o nulo
+        if (!id || id.trim() === '') {
+            return res.status(400).json({ mensaje: "El ID no puede estar vacío o nulo" });
         }
+
         const connection = await pool.getConnection();
         try {
-            const [result] = await connection.query('DELETE FROM usuarios WHERE Edad = ?', [EdadConvertida]);
+            const [result] = await connection.query('DELETE FROM usuarios WHERE id = ?', [id]);
 
             if (result.affectedRows > 0) {
                 res.status(200).json({ mensaje: "Información eliminada correctamente" });
             } else {
-                res.status(404).json({ mensaje: "No se encontró información con la edad proporcionada" });
+                res.status(404).json({ mensaje: "No se encontró información con el ID proporcionado" });
             }
         } finally {
             connection.release(); // Release the connection back to the pool
@@ -86,6 +86,8 @@ router.delete('/', async (req, res) => {
         res.status(500).json({ mensaje: "Error de conexión" });
     }
 });
+
+
 
 
 export { router }; // Named export
