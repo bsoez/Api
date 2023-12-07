@@ -23,25 +23,26 @@ router.get('/', async (req, res) => {
  * /usuarios:
  *   post:
  *     description: Crea un nuevo usuario.
- *     parameters:
- *       - in: body
- *         name: nombre
- *         required: true
- *         schema:
- *           type: string
- *         description: El nombre del usuario.
- *       - in: body
- *         name: edad
- *         required: true
- *         schema:
- *           type: integer
- *         description: La edad del usuario.
- *       - in: body
- *         name: juegoFavorito
- *         required: true
- *         schema:
- *           type: string
- *         description: El juego favorito del usuario.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - Nombre
+ *               - Edad
+ *               - JuegoFavorito
+ *             properties:
+ *               Nombre:
+ *                 type: string
+ *                 description: El nombre del usuario.
+ *               Edad:
+ *                 type: integer
+ *                 description: La edad del usuario.
+ *               JuegoFavorito:
+ *                 type: string
+ *                 description: El juego favorito del usuario.
  *     responses:
  *       200:
  *         description: Información agregada correctamente.
@@ -250,6 +251,7 @@ router.delete('/', async (req, res) => {
         res.status(500).json({ mensaje: "Error de conexión" });
     }
 });
+
 
 
 export { router }; // Named export
