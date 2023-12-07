@@ -100,17 +100,22 @@ router.post('/', async (req, res) => {
  *         schema:
  *           type: string
  *         description: El nombre del usuario a actualizar.
- *       - in: body
- *         name: body
- *         required: true
- *         description: Objeto con el nuevo juego favorito.
- *         schema:
- *           type: object
- *           properties:
- *             nuevoJuegoFavorito:
- *               type: string
- *           example:
- *             nuevoJuegoFavorito: "Nuevo Juego"
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nuevoJuegoFavorito
+ *             properties:
+ *               nuevoJuegoFavorito:
+ *                 type: string
+ *                 description: El nuevo juego favorito del usuario.
+ *           examples:
+ *             ejemplo1:
+ *               value:
+ *                 nuevoJuegoFavorito: "Nuevo Juego"
  *     responses:
  *       200:
  *         description: Información actualizada correctamente.
@@ -180,13 +185,18 @@ router.put('/:nombre', async (req, res) => {
  * /usuarios:
  *   delete:
  *     description: Elimina usuario basados en el ID.
- *     parameters:
- *       - in: body
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: El id del usuario a eliminar.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - id
+ *             properties:
+ *               id:
+ *                 type: string
+ *                 description: El id del usuario.
  *     responses:
  *       200:
  *         description: Información eliminada correctamente.
